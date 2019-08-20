@@ -1,0 +1,67 @@
+<%-include("headermain")-%>
+  <body class="text-center">
+
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+          <div class="inner">
+            <h3 class="masthead-brand"><i class="fas fa-comments"></i>&nbsp;Chat</h3>
+            <nav class="nav nav-masthead justify-content-center">
+              <a class="nav-link text-white" href="/">Home</a>
+              <a class="nav-link text-white" href="#">Login</a>
+            </nav>
+          </div>
+        </header>
+  
+        <main role="main" class="inner cover" >
+           
+                        <div class="form-row">
+                          <div class="form-group col-md-12">
+                            <label for="inputEmail4">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-12">
+                                <label for="inputEmail4">Password</label>
+                                <input type="Password" class="form-control" id="password" name="password" placeholder="Password" required>
+                              </div>
+                        </div>
+                        
+                       <center> <button type="button" onclick="send()" class="btn btn-primary">Sign in</button></center>
+                    
+        </main>
+  
+        <footer class="mastfoot mt-auto">
+          <div class="inner">
+            <p class="text-white">Website created by Deepak</p>
+          </div>
+        </footer>
+      </div>
+  
+  </body>
+   <!-- jquery -->
+
+  <script src="https://unpkg.com/notie"></script> 
+  <script>
+      function send(){
+         if(document.getElementById("username").value && document.getElementById("password").value)
+         {
+            $.ajax('/login',{
+        type:"POST",
+        data:{
+            "username":document.getElementById("username").value,
+            "password":document.getElementById("password").value
+        },
+        success:(data)=>{if(data=="notfound")notie.alert({ type: 'error', text: 'Oops! invalid credentials' })
+          else if(data=="success") window.location = "http://localhost:4000/user/home";
+        }
+         })
+         }
+         else{
+            notie.alert({ type: 'error', text: 'Fill both feilds' });
+         }
+       
+      }
+   
+  </script>
+</html>

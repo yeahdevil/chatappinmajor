@@ -1,0 +1,63 @@
+<%-include("headermain")-%>
+
+<body class="text-center">
+<div class="container d-flex  p-3  flex-column">
+ <header class="masthead mb-auto">
+          <div class="inner">
+            <h3 class="masthead-brand"><i class="fas fa-comments"></i>&nbsp;Chat</h3>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <nav class="nav nav-masthead justify-content-center">
+        
+
+              <a class="nav-link text-white" href="/user/logout">Logout</a>
+            </nav>
+          </div>
+        </header>
+
+<div class="container" style="height:600px;width:800px;background-color:white; border:2px solid #007bff!important;">
+           <h3 style="color:black">Chat box</h3>
+           <hr>
+          
+           <input type="text" id="msg" style="position:relative; top:27rem; width:650px" placeholder="Enter message to send ">
+<button class = "btn btn-primary" value ="<%=user%>" id = "sendBTN" onclick="send()" style="position:relative; top:28rem; width:500px">Send</button>
+ <div class="messages" id="messages" style="color:black;padding:0px!important;margin:0px!important">
+ 
+ <%for(var i=0;i<messages.length;i++){%>
+<p style="margin-bottom:0rem"><%=messages[i].sender%>:<%=messages[i].message%></p>
+<hr style="margin-bottom:0rem;margin-top:0rem"></hr>
+ <%}%>
+ 
+ </div>
+</div>
+
+<footer class="mastfoot mt-auto">
+          <div class="inner">
+            <p class="text-white">Website created by Deepak</p>
+          </div>
+        </footer>
+</div>
+</body>
+<script>
+
+  var socket = io.connect('http://localhost:4000/');
+ var url = $(location).attr('href'),
+    parts = url.split("/"),
+    roomUsers = parts[parts.length-1];
+  
+window.onload = ()=>{
+    socket.emit("connectGroupRoom",(roomUsers));
+};
+function send (){
+socket.emit("groupMessage",{"roomUsers": roomUsers,"msg":document.getElementById('msg').value,"sender":document.getElementById('sendBTN').value});
+}
+socket.on("groupMessage",(data)=>{
+    var m = document.createElement("p");
+    m.setAttribute("style","margin-bottom:0rem");
+     var hr = document.createElement("hr");
+      hr.setAttribute("style","margin-bottom:0rem;margin-top:0rem");
+    m.textContent = data.sender+":"+data.msg;
+    document.getElementById("messages").appendChild(m);
+     document.getElementById("messages").appendChild(hr);
+})
+</script>
+</html>

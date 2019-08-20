@@ -1,0 +1,71 @@
+<%-include("headermain")-%>
+  <body class="text-center">
+
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+          <div class="inner">
+            <h3 class="masthead-brand"><i class="fas fa-comments"></i>&nbsp;Chat</h3>
+            <nav class="nav nav-masthead justify-content-center">
+              <a class="nav-link text-white" href="/">Home</a>
+              <a class="nav-link text-white" href="/login">Login</a>
+           
+            </nav>
+          </div>
+        </header>
+  
+        <main role="main" class="inner cover" >
+               
+                        <div class="form-row">
+                          <div class="form-group col-md-12">
+                                <label for="inputEmail4">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                              </div>
+                        </div>
+                        <div  class="form-row">
+                          <div class="form-group col-md-12">
+                            <label for="inputPassword4">Password</label>
+                            <input type="password" class="form-control" required name="password" id="password" placeholder="Password">
+                          </div>
+                        </div>
+                       <center> <button type=button" onclick="send()" class="btn btn-primary">Create ID</button></center>
+                
+        </main>
+  
+        <footer class="mastfoot mt-auto">
+          <div class="inner">
+            <p class="text-white">Website created by Deepak </p>
+          </div>
+        </footer>
+      </div>
+  
+  </body>
+  rs
+  <script src="https://unpkg.com/notie"></script> 
+  <script>
+    function send(){
+       
+        let password = document.getElementById("password").value;
+        let username = document.getElementById("username").value;
+        if(password && username){
+           $.ajax("/signup",{
+               type:"POST",
+               data:{
+                  
+                   password:password,
+                 
+                   username:username
+               },
+               success:(data)=>{if(data=="found") notie.alert({ type: 'error', text: 'Already registered' }); 
+               else notie.alert({ type: 'success', text: 'Id created', time: 2 }) 
+            }
+           })
+        }
+        else
+        {
+            notie.alert({ type: 'error', text: 'Filling all feilds is compulsory' });
+        }
+    
+
+    }
+  </script>
+</html>

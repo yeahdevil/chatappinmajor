@@ -1,0 +1,78 @@
+<%-include("headermain")-%>
+
+<body class="text-center">
+<div class="container d-flex  p-3  flex-column">
+ <header class="masthead mb-auto">
+          <div class="inner">
+            <h3 class="masthead-brand"><i class="fas fa-comments"></i>&nbsp;Chat</h3>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <nav class="nav nav-masthead justify-content-center">
+            
+              <a class="nav-link text-white" href="newGroup">newGroup</a>
+              <a class="nav-link text-white" href="logout">Logout</a>
+            </nav>
+          </div>
+        </header>
+
+<div class="container">
+    <div class="row">
+        <div class="col-10">
+        <h3 class = "text-muted">Select a user</h3>
+        <div class="list-group">
+            <%for(var i = 0;i<users.length;i++){if(users[i]._id!=session){%>
+
+          <%if(users[i]._id>session){%>
+  <a href="/user/joinChat/<%=users[i]._id%>.<%=session%>" class="list-group-item list-group-item-action flex-column align-items-start">
+    <%}else{%>
+  <a href="/user/joinChat/<%=session%>.<%=users[i]._id%>" class="list-group-item list-group-item-action flex-column align-items-start">
+
+    <%}%>
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1"><%=users[i].username%></h5>
+      <small>3 days ago</small>
+    </div>
+    <small>Start a chat with <i class="text-weight-light"><%=users[i].username%></i></small>
+  </a>
+
+
+            <%}}%>
+            </div>
+           
+</div>
+
+</div>
+
+
+    <div class="row">
+        <div class="col-10">
+        <h3 class = "text-muted">Select a group</h3>
+        <div class="list-group">
+            <%for(var i = 0;i<groups.length;i++){%>
+      <a href="/user/joinGroup/<%=groups[i].groupName%>.<%=groups[i].admin%>" class="list-group-item list-group-item-action flex-column align-items-start">
+     <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1"><%=groups[i].groupName%></h5>
+      <small>3 days ago</small>
+    </div>
+    <small>Start a chat in group</small>
+  </a>
+
+
+            <%}%>
+            </div>
+           
+</div>
+
+</div>
+
+
+</div>
+
+<footer class="mastfoot mt-auto">
+          <div class="inner">
+            <p class="text-white">Website created by Deepak</p>
+          </div>
+        </footer>
+</div>
+</body>
+
+</html>

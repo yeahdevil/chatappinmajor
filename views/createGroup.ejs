@@ -1,0 +1,72 @@
+<%-include("headermain")-%>
+
+
+
+<body class="text-center">
+<div class="container d-flex  p-3  flex-column">
+ <header class="masthead mb-auto">
+          <div class="inner">
+            <h3 class="masthead-brand"><i class="fas fa-comments"></i>&nbsp;Chat</h3>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <nav class="nav nav-masthead justify-content-center">
+            
+              <a class="nav-link text-white" href="newGroup">newGroup</a>
+              <a class="nav-link text-white" href="logout">Logout</a>
+            </nav>
+          </div>
+        </header>
+<main>
+<div class="container">
+   
+        <h3 class = "text-muted">Create group</h3>
+        <input type="text" placeholder= "Enter grroup name" id="groupname"><br><br>
+        <center>
+        <table>
+        <%for(var i = 0;i<users.length;i++){if(users[i]._id!=session){%>
+        <tr><td>
+        <input type="checkbox" name="Users" value="<%=users[i]._id%>">
+        </td><td>
+        <label><%=users[i].username%></label></td></tr>
+        <%}}%>
+        </table><br>
+        </center>
+        <button class="btn btn-primary" name="admin" value="<%=session%>" onclick="createGroup()">Create</button>
+</div>
+</main>
+
+<footer class="mastfoot mt-auto">
+          <div class="inner">
+            <p class="text-white">Website created by Deepak</p>
+          </div>
+        </footer>
+</div>
+</body>
+<script>
+function createGroup(){
+//console.log($('input[name="Users"]:checked').serialize());
+var abc = new Array();
+$('input[name="Users"]:checked').each(function() {
+   abc.push(this.value);
+});
+$.ajax("newGroup",{
+    "type":"POST",
+    "data":{
+        "admin":$('button[name="admin"]')[0].value,
+        "members":abc,
+        "groupName":document.getElementById("groupname").value
+
+    },
+    "success":(data)=>{
+        if(data=="fail"){
+            alert("already hav group with this name");
+        }
+        else{
+
+        console.log(data);
+        }
+    }
+
+})
+}
+</script>
+</html>
